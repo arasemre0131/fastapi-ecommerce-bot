@@ -72,6 +72,13 @@ app.add_middleware(
 app.add_exception_handler(APIException, api_exception_handler)
 app.add_exception_handler(Exception, general_exception_handler)
 
+# Include routers
+from .auth.router import router as auth_router
+from .integrations.shopify.router import router as shopify_router
+
+app.include_router(auth_router, prefix=settings.api_v1_prefix)
+app.include_router(shopify_router, prefix=settings.api_v1_prefix)
+
 
 @app.get("/")
 async def root():
